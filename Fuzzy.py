@@ -10,7 +10,7 @@ def titiknaik(atas, bawah, titik):
     y = (titik-bawah)/(atas-bawah)
     return y
 
-def emosi(titik):
+def emosi(titik): #proses fuzzification parameter emosi
     status=[]
     if 0<=titik<=36:
         status.append(['rendah',1])
@@ -33,7 +33,7 @@ def emosi(titik):
         print('out of bound')
     return status
 
-def provokasi(titik):
+def provokasi(titik): #proses fuzification parameter provokasi
     status=[]
     if 0<=titik<=25:
         status.append(['low',1])
@@ -56,8 +56,8 @@ def provokasi(titik):
         print('out of bound')
     return status
 
-def fuzzyrule(emo, income):
-    inference=[]
+def fuzzyrule(emo, income): #implement the fuzzy rule
+    inference=[] #contain the result of inference later
     for i in range (len(emo)):
         for j in range (len(income)):
             if (income[j][0]=='low' and emo[i][0]=='rendah') or (income[j][0]=='low' and emo[i][0]=='tinggi') or (income[j][0]=='low' and emo[i][0]=='sangat tinggi'):
@@ -77,8 +77,8 @@ def fuzzyrule(emo, income):
     # print(inference)
     return inference
 
-def inferensi(inference):
-    defuzzy=[0,0,0]
+def inferensi(inference): #search the biggest value
+    defuzzy=[0,0,0] #it contains the biggest value in each class
     for i in range (len(inference)):
         if inference[i][0] == 'small'and inference[i][1]>defuzzy[0]:
             defuzzy[0] = inference[i][1]
@@ -89,7 +89,7 @@ def inferensi(inference):
     # print(defuzzy)
     return defuzzy
 
-def sugeno(defuzzification):
+def sugeno(defuzzification): 
     # penyebut = defuzzification[0]*25+defuzzification[1]*50+defuzzification[2]*75
     # pembilang = defuzzification[0]+defuzzification[1]+defuzzification[2]
     # print(defuzzification, penyebut, pembilang)
@@ -109,7 +109,8 @@ def Main(path):
         else:
             result.append('Ya')
         # print('')
-
+    
+    #to write the result into excel without overwritting the existing one
     hasil = pd.DataFrame({'Hoax':result})
     writer=ExcelWriter(path)
     book = load_workbook(path)
